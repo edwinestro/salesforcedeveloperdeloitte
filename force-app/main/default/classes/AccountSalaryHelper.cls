@@ -13,7 +13,9 @@ public with sharing class AccountSalaryHelper {
             } else {
                 accountIds.add(newAccountSalary,Account__c);
             }
+
         }
+        
 
         if (!accountsToUpdate.isEmpty()){
             List<AggregateResult> aggResults = [Select Account__c accId, sum(Salary__c) sumSalary, 

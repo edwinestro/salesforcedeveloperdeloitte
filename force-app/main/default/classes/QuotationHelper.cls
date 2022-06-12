@@ -24,28 +24,23 @@ public with sharing class QuotationHelper implements QuotationSync  {
 
     public boolean confirmProductExistByCode(String codigo){
 
-        if( null == [select ExternalId from Product2 where ProductCode = :codigo ] ) {
+        boolean existe = false;
 
-            return false; 
+        List<Product2> listaProd = [SELECT ID FROM Product2 WHERE CodigoProd__c= :codigo LIMIT 1];
 
-        }else{
-
-            return true;
+        if(listaProd.size() > 0 ){
+            existe = true;
         }
-    }
-
-    public integer searchProductByCode(String codigo){
-
-        if( null != [select Cantidad_dis__c	 from Inventario__c
-        where CodigoProd__c = :codigo] ) {
-
-            return Integer.valueOf([select Cantidad_dis__c	 from Inventario__c
-            where CodigoProd__c = :codigo][0].Cantidad_dis__c); 
-
-        }else{
-
-            return 0;
+        return existe;
         }
 
+    public double searchProductByCode(String codigo){
+
+        double cantidad = 0;
+
+        Inventario__c producto = [SELECT id, Cantidad_dis__c FROM Inventario__c WHERE CodigoProd__c = :codigo LIMIT 1];
+        cantidad = producto.Cantidad_dis__c;
+        return cantidad;
     }
+    
 }
