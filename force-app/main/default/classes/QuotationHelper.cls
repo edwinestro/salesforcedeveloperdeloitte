@@ -38,10 +38,16 @@ public with sharing class QuotationHelper implements QuotationSync  {
 
         double cantidad = 0;
 
-        Inventario__c producto = [SELECT id, Cantidad_dis__c FROM Inventario__c WHERE CodigoProd__c = :codigo LIMIT 1];
-        cantidad = producto.Cantidad_dis__c;
-        return cantidad;
+        List<Inventario__c> producto = [SELECT id, Cantidad_dis__c FROM Inventario__c WHERE CodigoProd__c = :codigo LIMIT 1];
+
+        for(Inventario__c cada : producto){
+        cantidad = cada.Cantidad_dis__c;
+   
     }
+    return cantidad;
+    }
+
+    //Método invocable para postear en Chatter
     @InvocableMethod
     public static void  StockEmptyAlert(){
 
@@ -58,13 +64,25 @@ public with sharing class QuotationHelper implements QuotationSync  {
         if(condicionante == true){
 
             //Schedule Stock Alert Post to Chatter
-            PostToChatter reminder = new PostToChatter();
+            PostToChatter alert = new PostToChatter();
             // Seconds Minutes Hours Day_of_month Month Day_of_week optional_year
-            String sch = '0 19 * * * ?';
-            String jobID = System.schedule('Periodic Stock Alert', sch, reminder);
+            String sch = '0 */5 * * * ?';
+            String jobID = System.schedule('Periodic Stock Alert', sch, alert);
         }
 
 
+
+    }
+
+    public void updateReservedQuantity(String Id,Integer Qty){
+
+        List<Inventario__c> updatear = [SELECT id, Cantidad_apart__c FROM Inventario__c WHERE CodigoProd__c = :Id LIMIT 1];
+        
+        for(Inventario__c i : updatear){
+        
+        i.Cantidad_apart__c += Qty;
+        update i;
+        }
 
     }
     
