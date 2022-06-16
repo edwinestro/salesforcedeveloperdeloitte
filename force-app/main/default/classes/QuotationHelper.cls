@@ -3,9 +3,9 @@ public with sharing class QuotationHelper implements QuotationSync  {
     
 
     }
-
+    //Creacion e inserción de dos cuentas distintas.
     public void initialConfig(){
-        //Creacion e inserción de dos cuentas distintas.
+    
         Account cuenta1 = new Account();
         cuenta1.Name = 'Compumundo';
         insert cuenta1;
@@ -73,17 +73,6 @@ public with sharing class QuotationHelper implements QuotationSync  {
 
 
     }
-
-    public void updateReservedQuantity(String Id,Integer Qty){
-
-        List<Inventario__c> updatear = [SELECT id, Cantidad_apart__c FROM Inventario__c WHERE CodigoProd__c = :Id LIMIT 1];
-        
-        for(Inventario__c i : updatear){
-        
-        i.Cantidad_apart__c += Qty;
-        update i;
-        }
-
-    }
     
 }
+
