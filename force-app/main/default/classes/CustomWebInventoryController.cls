@@ -7,6 +7,7 @@ public with sharing class CustomWebInventoryController {
         public CustomWebInventoryController(ApexPages.StandardController controller){
             parent = controller.getRecord();
         }
+
         //Crea un objeto quoteHelper__c para poder mostrar la informacion
         public void buscar(){
             List<Product2> idDeProducto = [select Id, Name, ExternalId, ProductCode from Product2 where ProductCode = :codigo limit 1];
@@ -44,10 +45,17 @@ public with sharing class CustomWebInventoryController {
             //Conectamos las variables a cada campo de un nuevo QuoteLineItem.
             List<Product2> idDeProducto = [select Id, Name, ExternalId, ProductCode from Product2 where ProductCode = :codigo limit 1];
             String idProducto = idDeProducto[0].Id;
+
+            //Obtenemos el Id del Quote que estamos trabajando.
             
             QuoteLineItem nuevoItem = new QuoteLineItem();
+            nuevoItem.QuoteId = ApexPages.currentPage().getParameters().get('id');
             nuevoItem.Product2Id = idProducto;
             nuevoItem.Quantity = cantidad;
+            nuevoItem.UnitPrice = [SELECT id, Name, UnitPrice
+                                    FROM PricebookEntry
+                                    WHERE PRoductCode = :codigo 
+                                    LIMIT 1][0].UnitPrice;
 
             upsert nuevoItem;
         }
