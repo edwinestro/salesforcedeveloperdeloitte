@@ -2,6 +2,7 @@ public with sharing class CustomWebInventoryController {
         private final sObject parent ;
         public String codigo {get;set;}
         public Integer cantidad {get;set;}
+        public Integer precioVenta {get;set;}
         public List<quoteHelper__c> listInv {get;set;}
 
         public CustomWebInventoryController(ApexPages.StandardController controller){
@@ -24,7 +25,7 @@ public with sharing class CustomWebInventoryController {
             helper.idExterno__c	 = codigo;
             helper.cantidadDisponible__c = String.valueOf([Select Cantidad_dis__c from Inventario__c where CodigoProd__c =:codigo][0].Cantidad_dis__c);
             insert helper;
-            listInv = Database.query('SELECT Name, precioLista__c, idExterno__c, cantidadDisponible__c FROM quoteHelper__c WHERE idExterno__c = :codigo limit 1');
+            return [SELECT Name, precioLista__c, idExterno__c, cantidadDisponible__c FROM quoteHelper__c WHERE idExterno__c = :codigo limit 1];
         }
 
 
@@ -42,22 +43,13 @@ public with sharing class CustomWebInventoryController {
 
 
         public void guardar(){
-            //Conectamos las variables a cada campo de un nuevo QuoteLineItem.
-            List<Product2> idDeProducto = [select Id, Name, ExternalId, ProductCode from Product2 where ProductCode = :codigo limit 1];
-            String idProducto = idDeProducto[0].Id;
 
             //Obtenemos el Id del Quote que estamos trabajando.
-            
-            QuoteLineItem nuevoItem = new QuoteLineItem();
-            nuevoItem.QuoteId = ApexPages.currentPage().getParameters().get('id');
-            nuevoItem.Product2Id = idProducto;
-            nuevoItem.Quantity = cantidad;
-            nuevoItem.UnitPrice = [SELECT id, Name, UnitPrice
-                                    FROM PricebookEntry
-                                    WHERE PRoductCode = :codigo 
-                                    LIMIT 1][0].UnitPrice;
-
-            upsert nuevoItem;
+            Comanda_Item__c nuevoItem = new Comanda_Item__c();
+            nuevoItem.Codigo_de_Producto__c = codigo;
+            nuevoItem.Cantidad__c = cantidad;
+            nuevoItem.Precio__c = precioVenta;
+            insert nuevoItem;
         }
 
 
