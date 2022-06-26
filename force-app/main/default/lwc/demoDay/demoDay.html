@@ -1,0 +1,28 @@
+<template>
+    <lightning-card>
+        <lightning-input
+            label="Search Item by Product Code"
+            value={codigo}
+            onchange={handleChange}>
+        </lightning-input>
+        
+        <lightning-button
+            label="Reset"
+            onclick={reset}>
+        </lightning-button>
+            <template if:true={items.data}>
+                <template for:each={items.data} for:item="item">
+                    <p key={item.Id}>{item.Name}, {item.precioLista__c}</p>
+                    <lightning-input    key={item.Id}
+                                        label="Add to basket"
+                                        value={cantidad}
+                                        onchange={handleChange2}>
+                    </lightning-input>
+                    <lightning-button   key={item.Id}
+                                        label="Add"
+                                        onclick={add}>
+                    </lightning-button>   
+                </template>
+            </template>
+    </lightning-card>
+  </template>

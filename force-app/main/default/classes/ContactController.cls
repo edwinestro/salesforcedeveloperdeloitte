@@ -1,11 +1,11 @@
 public with sharing class ContactController {
 @AuraEnabled(cacheable=true)
-public static List<Contact> getContactList() {
+public static List<Contact> getContacts() {
     return [
-        SELECT Id, Name, Title, Phone, Email
+        SELECT FirstName, LastName, Email
         FROM Contact
         WITH SECURITY_ENFORCED
-        LIMIT 10
+        ORDER BY LastName
     ];
 }
 
