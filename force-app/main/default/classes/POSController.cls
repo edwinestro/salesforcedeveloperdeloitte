@@ -1,29 +1,50 @@
 public with sharing class POSController {
-    List<quoteHelper__c> lista = new List<quoteHelper__c>();
     @AuraEnabled(cacheable=true)
-    public static List<quoteHelper__c> buscar(String codigo) {
-        List<Product2> idDeProducto = [select Id, Name, ExternalId, ProductCode from Product2 where ProductCode = :codigo limit 1];
-        String idProducto = idDeProducto[0].Id;
+    public static List<Lista_de_Precios__c> buscar(String codigo) {
 
-        //Creamos el objeto helper para mostrar el item buscado.
-        quoteHelper__c helper = new quoteHelper__c();
-        helper.Name = idDeProducto[0].Name;
-        helper.precioLista__c = String.valueOf([SELECT UnitPrice FROM PricebookEntry WHERE ProductCode = :codigo][0].UnitPrice);
-        helper.idExterno__c	 = codigo;
-        helper.cantidadDisponible__c = String.valueOf([Select Cantidad_dis__c from Inventario__c where CodigoProd__c =:codigo][0].Cantidad_dis__c);
-        
-        
+
+        List<Lista_de_Precios__c> lista = new List<Lista_de_Precios__c>();
+
+        Lista_de_Precios__c helper = new Lista_de_Precios__c();
+
+        helper.Name = [Select Name from Lista_de_Precios__c Where codigoprod__c = :codigo limit 1][0].Name;
+        helper.codigoprod__c = [Select codigoprod__c from Lista_de_Precios__c Where codigoprod__c = :codigo limit 1][0].codigoprod__c;
+        helper.Precio__c = [Select Precio__c from Lista_de_Precios__c Where codigoprod__c = :codigo limit 1][0].Precio__c;
+
+
 
         lista.add(helper);
         System.debug('Estoy dentro de buscar');
         return lista;
-        //[SELECT Id, Name, precioLista__c, idExterno__c, cantidadDisponible__c FROM quoteHelper__c WHERE idExterno__c = :codigo limit 1];
    }
 
+   
    @AuraEnabled(cacheable=true)
-   public static List<quoteHelper__c> guardar(String cantidad) {
+   public static List<Item__c> guardar(String codigo, String cantidad) {
 
-    return lista;
+
+       List<Item__c> lista = new List<Item__c>();
+
+       Item__c helper = new Item__c();
+
+       helper.Name = [Select Name from Item__c Where itemcode__c = :codigo limit 1][0].Name;
+       helper.itemcode__c = [Select itemcode__c from Item__c Where itemcode__c = :codigo limit 1][0].itemcode__c;
+       helper.Precio__c = [Select Precio__c from Item__c Where itemcode__c = :codigo limit 1][0].Precio__c;
+
+
+
+       lista.add(helper);
+       System.debug('Estoy dentro de guardr');
+       return lista;
+  }
+
+   //@AuraEnabled(cacheable=true)
+   //public static List<item__c> guardar(String codigo, String cantidad) {
+
+
+
+    
+   // return lista;
 
 
 
@@ -31,6 +52,4 @@ public with sharing class POSController {
 
 
     }
-
-}
 

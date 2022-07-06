@@ -1,10 +1,13 @@
 import { LightningElement, wire } from 'lwc';
 import buscar from '@salesforce/apex/POSController.buscar';
+import guardar from '@salesforce/apex/POSController.guardar';
 export default class demoDay extends LightningElement {
     codigo = null; 
     cantidad = null; 
     @wire(buscar, { codigo: '$codigo' })
-    items;
+    items;    
+    @wire(guardar, {codigo: '$codigo' })
+    items2;
     handleChange(event) {
         this.codigo = event.detail.value;
     } 
@@ -16,6 +19,6 @@ export default class demoDay extends LightningElement {
     }
     
     add() {
-        //To do
+        this.cantidad = 1;
     }
 }

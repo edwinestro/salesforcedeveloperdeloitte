@@ -1,7 +1,7 @@
 <template>
     <lightning-card>
         <lightning-input
-            label="Search Item by Product Code"
+            label="Ingresa codigo para agregar producto"
             value={codigo}
             onchange={handleChange}>
         </lightning-input>
@@ -12,16 +12,16 @@
         </lightning-button>
             <template if:true={items.data}>
                 <template for:each={items.data} for:item="item">
-                    <p key={item.Id}>{item.Name}, {item.precioLista__c}</p>
-                    <lightning-input    key={item.Id}
-                                        label="Add to basket"
-                                        value={cantidad}
-                                        onchange={handleChange2}>
-                    </lightning-input>
+                    <p key={item.Id}>{item.Name}, {item.Precio}</p>
                     <lightning-button   key={item.Id}
                                         label="Add"
                                         onclick={add}>
-                    </lightning-button>   
+                    </lightning-button>
+                </template>
+            </template>
+            <template if:true={items2.data}>
+                <template for:each={items2.data} for:item="item2">
+                    <p key={item2.Id}>{item2.Name}, {item2.Precio}</p>
                 </template>
             </template>
     </lightning-card>

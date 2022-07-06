@@ -1,0 +1,12 @@
+<template>
+    <lightning-card>
+        <template if:true={insumos.data}>
+            <lightning-datatable
+                key-field="Name"
+                data={insumos.data}
+                columns={columns}
+            >
+           </lightning-datatable>
+        </template>
+    </lightning-card>
+</template>
