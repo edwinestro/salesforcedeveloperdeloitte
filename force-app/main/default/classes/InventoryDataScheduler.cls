@@ -1,10 +1,7 @@
-public with sharing class InventoryDataScheduler implements Schedulable {
-
-    public void execute(schedulableContext sc){
-        ExternalLegacyConnection();
-    }
+public with sharing class InventoryDataScheduler{
 
     @future
     public static void ExternalLegacyConnection() {
+
     }
 }

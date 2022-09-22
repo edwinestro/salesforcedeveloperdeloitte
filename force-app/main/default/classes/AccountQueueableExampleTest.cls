@@ -14,7 +14,8 @@ public class AccountQueueableExampleTest {
       
     static testmethod void testQueueable() {
         // query for test data to pass to queueable class 
-        List<Account> accounts = [select id, name from account where name like 'Test Account%']; 
+        List<Account> accounts = [select id, name from account where name like 
+'Test Account%']; 
         // Create our Queueable instance 
         AccountQueueableExample accQObj = new AccountQueueableExample(accounts); 
         // startTest/stopTest block to force async processes to run 
@@ -22,7 +23,8 @@ public class AccountQueueableExampleTest {
         System.enqueueJob(accQObj); 
         Test.stopTest();         
         // Validate the job ran 
-        System.assertEquals(100, [select count() from account where Name like '%Bedu%']); 
+        System.assertEquals(100, [select count() from account where Name like 
+'%Bedu%']); 
     } 
       
-} 
+}

@@ -25,7 +25,7 @@ public with sharing class CustomWebInventoryController {
             helper.idExterno__c	 = codigo;
             helper.cantidadDisponible__c = String.valueOf([Select Cantidad_dis__c from Inventario__c where CodigoProd__c =:codigo][0].Cantidad_dis__c);
             insert helper;
-            return [SELECT Name, precioLista__c, idExterno__c, cantidadDisponible__c FROM quoteHelper__c WHERE idExterno__c = :codigo limit 1];
+            listInv = Database.query('SELECT Name, precioLista__c, idExterno__c, cantidadDisponible__c FROM quoteHelper__c WHERE idExterno__c = :codigo limit 1');
         }
 
 

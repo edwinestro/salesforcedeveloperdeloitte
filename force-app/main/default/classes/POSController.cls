@@ -34,7 +34,7 @@ public with sharing class POSController {
 
 
        lista.add(helper);
-       System.debug('Estoy dentro de guardr');
+       System.debug('Estoy dentro de guaradr');
        return lista;
   }
 
@@ -52,4 +52,3 @@ public with sharing class POSController {
 
 
     }
-
